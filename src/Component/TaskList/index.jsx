@@ -4,9 +4,10 @@ import Render from "@/common/renderHelp";
 // import { element } from "prop-types";
 import { ReloadOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { getTasks } from "../../services/task";
 
 function TaskList(Props) {
-  const { data, loading, error, loadPage, page,reload } = useFetching("/tasks");
+  const { data, loading, error, loadPage, page,reload } = useFetching(getTasks);
 
   const element = (
     <div className="list">

@@ -43,21 +43,23 @@ function useFetching(api) {
   function reload() {
     setLoading(true);
     setCount(count + 1);
-    setError(null)
+    setError(null);
   }
 
   useEffect(() => {
     const Controller = new AbortController();
     isMounted.current = true;
-    axios({
-      url: `${api}?=&pagination[pageSize]=${page.pageSize}&pagination[page]=${page.page}`,
-    })
-      .then((res) => {
+    // axios({
+    //   url: `${api}?=&pagination[pageSize]=${page.pageSize}&pagination[page]=${page.page}`,
+    //   signal:Controller.signal
+    // })
+    api(page.page, page.pageSize, Controller.signal)
+      .then((data) => {
         if (isMounted.current) {
-          setPage({ ...res.data.meta.pagination });
-          setData(res.data.data);
+          setPage({ ...data.meta.pagination });
+          setData(data.data);
           setLoading(false);
-          setError(null)
+          setError(null);
         }
       })
       .catch((err) => {
