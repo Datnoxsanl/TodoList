@@ -1,12 +1,6 @@
 import "./App.css";
-import useFetching from "./customHook/useFetching";
-import Render from "./common/renderHelp";
-import { Skeleton } from "antd";
-
+import TaskList from "@/Component/TaskList";
 function App() {
-  const {data, loading, error} = useFetching('/tasks')
-
-
   const screen = (
     <>
       <header className="masthead">
@@ -68,33 +62,7 @@ function App() {
         </button>
       </section>
       <section className="lists-container">
-        <div className="list">
-          <h3 className="list-title">Tasks to Do</h3>
-          <ul className="list-items">
-            {
-            loading? Array(10).fill(0).map((item,index) =><Skeleton key={index}  active></Skeleton> ):
-            data?.map((item)=>{
-              return <li key={item.id}>{item?.attributes?.title}</li>
-            })
-          }
-
-            {/* <li>Complete mock-up for client website</li>
-            <li>Email mock-up to client for feedback</li>
-            <li>Update personal website header background image</li>
-            <li>Update personal website heading fonts</li>
-            <li>Add google map to personal website</li>
-            <li>Begin draft of CSS Grid article</li>
-            <li>Read new CSS-Tricks articles</li>
-            <li>Read new Smashing Magazine articles</li>
-            <li>Read other bookmarked articles</li>
-            <li>Look through portfolios to gather inspiration</li>
-            <li>Create something cool for CodePen</li>
-            <li>Post latest CodePen work on Twitter</li>
-            <li>Listen to new Syntax.fm episode</li>
-            <li>Listen to new CodePen Radio episode</li> */}
-          </ul>
-          <button className="add-card-btn btn">Add a card</button>
-        </div>
+        <TaskList title="Danh sách việc cần làm" />
         <div className="list">
           <h3 className="list-title">Completed Tasks</h3>
           <ul className="list-items">
@@ -273,11 +241,9 @@ function App() {
       </section>
     </>
   );
-  
-   return Render(loading, error, screen);
- 
-}
 
-console.log('hello')
+  return screen;
+}
+console.log("hello");
 
 export default App;

@@ -1,12 +1,12 @@
 import { Button, Result, Spin } from "antd";
-function Render(loading, error, element) {
+function Render(loading, error, element,btnElement = <Button type="primary">Back Home</Button>) {
   if (error) {
     return (
       <Result
         status="500"
         title="500"
         subTitle="Sorry, something went wrong."
-        extra={<Button type="primary">Back Home</Button>}
+        extra={btnElement}
       />
     );
   }
