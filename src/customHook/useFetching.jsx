@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { FunctionOutlined } from "@ant-design/icons";
+import { FETCH_DATA } from "../common/errorCode";
+
+
+
 
 function useFetching(api) {
   const [data, setData] = useState([]);
@@ -64,7 +68,7 @@ function useFetching(api) {
       })
       .catch((err) => {
         if (!axios.isCancel(err)) {
-          setError(err);
+          setError(FETCH_DATA);
           setLoading(false);
         }
       });
