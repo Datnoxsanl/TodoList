@@ -1,6 +1,8 @@
-
+import { useSelector } from "react-redux"
+import { Tooltip } from 'antd';
 function Header(){
-    
+  const user = useSelector(state => state.auth.user)
+    console.log("header",user)
     return (<>
           <header className="masthead">
         <div className="boards-menu">
@@ -32,9 +34,11 @@ function Header(){
           <button className="user-settings-btn btn" aria-label="Notifications">
             <i className="fas fa-bell" aria-hidden="true"></i>
           </button>
-          <button className="user-settings-btn btn" aria-label="User Settings">
-            <i className="fas fa-user-circle" aria-hidden="true"></i>
-          </button>
+          <Tooltip title={user?.username}>
+                <button className="user-settings-btn btn" aria-label="User Settings">
+                    <i className="fas fa-user-circle" aria-hidden="true"></i>
+                </button>
+            </Tooltip>
         </div>
       </header>
 

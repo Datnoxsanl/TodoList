@@ -4,32 +4,42 @@ import { EmailRule, PasswordRule } from "../../common/rule";
 import { login } from "../../services/auth";
 import { useNavigate } from "react-router";
 import useNotification from "../../customHook/useNotication";
-
+import { setUserAccess } from '@/redux/auth';
+import { useDispatch } from "react-redux";
 const Login = () => {
   const { contextHolder, infoNotify, errorNotify } = useNotification();
   const nav = useNavigate();
+  const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
-      var data = await login(values);
-      const user = data.user;
-      const token = data.jwt;
-      localStorage.getItem("token", token);
-      localStorage.getItem("user", JSON.stringify(user));
+      let {jwt, user} = await login(values)
+        localStorage.setItem('token', jwt)
+        localStorage.setItem('user', JSON.stringify(user))
+        dispatch(setUserAccess({
+          token: jwt,
+          user: user
+      }))
       nav("/");
     } catch (error) {
-        console.error('Lỗi:', error);
-        const { response } = error;
-        if (response) {
-            const { error: { message } } = response.data;
-            errorNotify('topRight', 'Lỗi đăng nhập', message);
-        } else {
-            errorNotify('topRight', 'Lỗi đăng nhập', 'Không thành công');
-        }
+      console.error("Lỗi:", error);
+      const { response } = error;
+      if (response) {
+        const {
+          error: { message },
+        } = response.data;
+        errorNotify("topRight", "Lỗi đăng nhập", message);
+      } else {
+        errorNotify("topRight", "Lỗi đăng nhập", "Không thành công");
+      }
     }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    errorNotify("topRight", "Loi dang nhap", errorInfo.errorFields[0].errors[0]);
+    errorNotify(
+      "topRight",
+      "Loi dang nhap",
+      errorInfo.errorFields[0].errors[0]
+    );
   };
   return (
     <>
