@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { FunctionOutlined } from "@ant-design/icons";
 import { FETCH_DATA } from "../common/errorCode";
 
 
@@ -23,23 +22,6 @@ function useFetching(api) {
     setPage((pre) => {
       return { ...pre, page: page, pageSize: pageSize };
     });
-  }
-
-  function nextPage() {
-    if (page.page < page.pageCount) {
-      setLoading(true);
-      setPage((prev) => {
-        return { ...prev, page: prev.page + 1 };
-      });
-    }
-  }
-  function prevPage() {
-    if (page.page > 1) {
-      setLoading(true);
-      setPage((prev) => {
-        return { ...prev, page: prev.page - 1 };
-      });
-    }
   }
 
   const [count, setCount] = useState(0);
@@ -79,7 +61,26 @@ function useFetching(api) {
     };
   }, [api, page.page, page.pageSize, count]);
 
-  return { data, error, loading, loadPage, page, prevPage, nextPage, reload };
+  return { data, error, loading, loadPage, page, reload };
 }
 
 export default useFetching;
+
+
+
+// function nextPage() {
+//   if (page.page < page.pageCount) {
+//     setLoading(true);
+//     setPage((prev) => {
+//       return { ...prev, page: prev.page + 1 };
+//     });
+//   }
+// }
+// function prevPage() {
+//   if (page.page > 1) {
+//     setLoading(true);
+//     setPage((prev) => {
+//       return { ...prev, page: prev.page - 1 };
+//     });
+//   }
+// }

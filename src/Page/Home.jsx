@@ -5,7 +5,6 @@ export default function Home(){
 
     return(
         <>
-          <BaseLayout>
         <section className="lists-container">
           <TaskList title="Danh sách việc cần làm" />
           <div className="list">
@@ -184,8 +183,6 @@ export default function Home(){
         </div>
           <button className="add-list-btn btn">Add a list</button>
         </section>
- 
-      </BaseLayout>
         </>
     )
 }
