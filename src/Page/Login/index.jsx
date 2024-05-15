@@ -4,21 +4,25 @@ import { EmailRule, PasswordRule } from "../../common/rule";
 import { login } from "../../services/auth";
 import { useNavigate } from "react-router";
 import useNotification from "../../customHook/useNotication";
-import { setUserAccess } from '@/redux/auth';
+import { setUserAccess } from "@/redux/auth";
 import { useDispatch } from "react-redux";
+// import { loginThunk } from "redux/auth/thunk";
 const Login = () => {
   const { contextHolder, infoNotify, errorNotify } = useNotification();
   const nav = useNavigate();
   const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
-      let {jwt, user} = await login(values)
-        localStorage.setItem('token', jwt)
-        localStorage.setItem('user', JSON.stringify(user))
-        dispatch(setUserAccess({
+      let { jwt, user } = await login(values);
+      // localStorage.setItem("token", jwt);
+      // localStorage.setItem("user", JSON.stringify(user));
+      dispatch(
+        setUserAccess({
           token: jwt,
-          user: user
-      }))
+          user: user,
+        })
+      );
+      // dispatch(loginThunk(values));
       nav("/");
     } catch (error) {
       console.error("Lỗi:", error);

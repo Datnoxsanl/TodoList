@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+// import auth from './thunk'
 const initialState = {
   token: '',
   user: {},
@@ -15,8 +15,8 @@ export const authSlice = createSlice({
       console.log(action.payload);
     },
   },
+  // extraReducers: {auth}
 });
-
 export const { setUserAccess } = authSlice.actions;
 
 export default authSlice.reducer;
