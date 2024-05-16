@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 import { Tooltip } from 'antd';
 function Header(){
   const user = useSelector(state => state.auth.user)
-    console.log("header",user)
+    // console.log("header",user)
     return (<>
           <header className="masthead">
         <div className="boards-menu">

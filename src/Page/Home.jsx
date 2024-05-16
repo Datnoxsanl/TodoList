@@ -1,6 +1,4 @@
 import TaskList from "@/Component/TaskList";
-import BaseLayout from "@/Component/Layout/BaseLayout";
-
 export default function Home(){
 
     return(
