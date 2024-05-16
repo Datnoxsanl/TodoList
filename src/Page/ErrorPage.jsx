@@ -7,7 +7,7 @@ export default function ErrorPage(){
     <Result
     status={error.status}
     title={error.status}
-    subTitle={error.error.message}
+    subTitle={error.message}
     extra={<Button type="primary">Back Home</Button>}
   />
     </>)

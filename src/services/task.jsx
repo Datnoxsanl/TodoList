@@ -8,7 +8,7 @@ export const getTasks = async (page,pageSize,signal) =>{
 export const createTask = async (title)=>{
    const response = await axios.post(`/tasks`,{
          "data": {
-             "title": title
+             "title": title,
          }
      
    });
