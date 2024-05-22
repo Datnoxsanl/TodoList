@@ -29,14 +29,15 @@ export default function TaskDetailModal(props) {
     try {
       console.log(values);
       let { title } = values;
-     await updateTask(data?.id, title);
-     if(typeof props.onOk == 'function') {props.onOk()}
-      infoNotify('topRight', 'Thanh Cong Task', data?.id)
-      dispatch(closeModal())
-      
+      await updateTask(data?.id, title);
+      if (typeof props.onOk == "function") {
+        props.onOk();
+      }
+      infoNotify("topRight", "Thanh Cong Task", data?.id);
+      dispatch(closeModal());
     } catch (error) {
       console.log(error);
-      errorNotify('topRight', 'that bai task' , data?.id)
+      errorNotify("topRight", "that bai task", data?.id);
     }
   }
 
@@ -53,31 +54,34 @@ export default function TaskDetailModal(props) {
 
   async function handleDeleteTask() {
     try {
-     await deleteTask(data?.id);
-     if(typeof props.onDelete == 'function') {props.onDelete()}
-      infoNotify('topRight', 'Thanh Cong Task', data?.id)
-      dispatch(closeModal())
-      
+      await deleteTask(data?.id);
+      if (typeof props.onDelete == "function") {
+        props.onDelete();
+      }
+      infoNotify("topRight", "Thanh Cong Task", data?.id);
+      dispatch(closeModal());
     } catch (error) {
       console.log(error);
-      errorNotify('topRight', 'that bai task' , data?.id)
+      errorNotify("topRight", "that bai task", data?.id);
     }
   }
 
   useEffect(() => {
     if (data) {
-      let date = data?.attributes?.date ? dayjs(data?.attributes?.date) : undefined;
+      let date = data?.attributes?.date
+        ? dayjs(data?.attributes?.date)
+        : undefined;
       form.setFieldsValue({
         title: data?.attributes?.title,
         complete: data?.attributes?.complete,
         date: date,
       });
-    };
+    }
   }, [data?.attributes, form]);
 
   return (
     <>
-    {contextHolder}
+      {contextHolder}
       <Modal
         forceRender
         title={data?.id || "DetailTask"}
@@ -85,10 +89,16 @@ export default function TaskDetailModal(props) {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[
-          <Button key="delete" type="dashed" danger onClick={handleDeleteTask}>Xoa</Button>,
-          <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-          <Button key="ok" type="primary" onClick={handleOk}>OK</Button>
-  ]}
+          <Button key="delete" type="dashed" danger onClick={handleDeleteTask}>
+            Xoa
+          </Button>,
+          <Button key="cancel" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button key="ok" type="primary" onClick={handleOk}>
+            OK
+          </Button>,
+        ]}
       >
         <Form
           form={form}

@@ -1,5 +1,10 @@
 import { Button, Result, Spin } from "antd";
-function Render(loading, error, element,btnElement = <Button type="primary">Back Home</Button>) {
+function Render(
+  loading,
+  error,
+  element,
+  btnElement = <Button type="primary">Back Home</Button>
+) {
   if (error) {
     return (
       <Result

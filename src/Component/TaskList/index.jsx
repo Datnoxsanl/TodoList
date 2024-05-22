@@ -165,33 +165,32 @@ function TaskList(Props) {
                         handleOpenModal(item);
                       }}
                     >
-                      <Row align='middle' justify='space-between'>
-                      <Avatar
-                        src={`https://backoffice.nodemy.vn${item?.attributes?.image?.data?.attributes?.url}`}
-                      ></Avatar>
-                      {item?.attributes?.title}
-                      <DeleteOutlined
-                        onClick={async (e) => {
-                          try {
-                            e.stopPropagation();
-                            await deleteTask(item?.id);
-                            infoNotify(
-                              "topRight",
-                              "Xoa thanh cong",
-                              `task ${item?.id}`
-                            );
-                            reload();
-                          } catch (error) {
-                            errorNotify(
-                              "topRight",
-                              "Không thành công",
-                              `Xoá taskID ${item?.id}`
-                            );
-                          }
-                        }}
-                      />
+                      <Row align="middle" justify="space-between">
+                        <Avatar
+                          src={`https://backoffice.nodemy.vn${item?.attributes?.image?.data?.attributes?.url}`}
+                        ></Avatar>
+                        {item?.attributes?.title}
+                        <DeleteOutlined
+                          onClick={async (e) => {
+                            try {
+                              e.stopPropagation();
+                              await deleteTask(item?.id);
+                              infoNotify(
+                                "topRight",
+                                "Xoa thanh cong",
+                                `task ${item?.id}`
+                              );
+                              reload();
+                            } catch (error) {
+                              errorNotify(
+                                "topRight",
+                                "Không thành công",
+                                `Xoá taskID ${item?.id}`
+                              );
+                            }
+                          }}
+                        />
                       </Row>
-                     
                     </li>
                   );
                 })}

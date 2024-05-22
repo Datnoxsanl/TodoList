@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux"
-import { Tooltip } from 'antd';
-function Header(){
-  const user = useSelector(state => state.auth.user)
-    // console.log("header",user)
-    return (<>
-          <header className="masthead">
+import { useSelector } from "react-redux";
+import { Tooltip } from "antd";
+function Header() {
+  const user = useSelector((state) => state.auth.user);
+  // console.log("header",user)
+  return (
+    <>
+      <header className="masthead">
         <div className="boards-menu">
           <button className="boards-btn btn">
             <i className="fab fa-trello boards-btn-icon"></i>Boards
@@ -35,14 +36,17 @@ function Header(){
             <i className="fas fa-bell" aria-hidden="true"></i>
           </button>
           <Tooltip title={user?.username}>
-                <button className="user-settings-btn btn" aria-label="User Settings">
-                    <i className="fas fa-user-circle" aria-hidden="true"></i>
-                </button>
-            </Tooltip>
+            <button
+              className="user-settings-btn btn"
+              aria-label="User Settings"
+            >
+              <i className="fas fa-user-circle" aria-hidden="true"></i>
+            </button>
+          </Tooltip>
         </div>
       </header>
-
-    </>)
+    </>
+  );
 }
 
-export default Header
+export default Header;

@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { FETCH_DATA } from "../common/errorCode";
 
-
-
-
 function useFetching(api) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
@@ -65,8 +62,6 @@ function useFetching(api) {
 }
 
 export default useFetching;
-
-
 
 // function nextPage() {
 //   if (page.page < page.pageCount) {

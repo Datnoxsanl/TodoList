@@ -12,15 +12,17 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element:
-        // <PrivateRouter role = 'authenticatedCheck'></PrivateRouter>
-         <Home></Home>,
+        element: (
+          // <PrivateRouter role = 'authenticatedCheck'></PrivateRouter>
+          <Home></Home>
+        ),
       },
       {
         path: "/quanly",
-        element:
-                // <PrivateRouter role ='managerCheck'></PrivateRouter>
-                 <h1>QUanLy</h1>
+        element: (
+          // <PrivateRouter role ='managerCheck'></PrivateRouter>
+          <h1>QUanLy</h1>
+        ),
       },
       {
         path: "/register",

@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <PersistGate loading = {null} persistor={persistor}>
+        <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={router}>
             <App />
           </RouterProvider>

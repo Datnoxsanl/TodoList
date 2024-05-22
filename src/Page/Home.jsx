@@ -1,11 +1,10 @@
 import TaskList from "@/Component/TaskList";
-export default function Home(){
-
-    return(
-        <>
-        <section className="lists-container">
-          <TaskList title="Danh sách việc cần làm" />
-          <div className="list">
+export default function Home() {
+  return (
+    <>
+      <section className="lists-container">
+        <TaskList title="Danh sách việc cần làm" />
+        <div className="list">
           <h3 className="list-title">Completed Tasks</h3>
           <ul className="list-items">
             <li>Clear email inbox</li>
@@ -179,8 +178,8 @@ export default function Home(){
           </ul>
           <button className="add-card-btn btn">Add a card</button>
         </div>
-          <button className="add-list-btn btn">Add a list</button>
-        </section>
-        </>
-    )
+        <button className="add-list-btn btn">Add a list</button>
+      </section>
+    </>
+  );
 }

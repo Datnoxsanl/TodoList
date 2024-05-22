@@ -1,7 +1,7 @@
-export default function InforBar(){
-
-    return(<>
-     <section className="board-info-bar">
+export default function InforBar() {
+  return (
+    <>
+      <section className="board-info-bar">
         <div className="board-controls">
           <button className="board-title btn">
             <h2>Web Development</h2>
@@ -23,5 +23,6 @@ export default function InforBar(){
           Show Menu
         </button>
       </section>
-    </>)
+    </>
+  );
 }

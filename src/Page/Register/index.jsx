@@ -12,26 +12,24 @@ import useNotification from "../../customHook/useNotication";
 
 // import 'Register.css'
 
-
 const Register = () => {
   var nav = useNavigate();
-  const {contextHolder, infoNotify ,errorNotify} = useNotification()
+  const { contextHolder, infoNotify, errorNotify } = useNotification();
 
   const onFinish = async (values) => {
     try {
-
       await register(values);
-      infoNotify('topRight', 'Thanh Cong', 'Ban da tao thanh cong')
+      infoNotify("topRight", "Thanh Cong", "Ban da tao thanh cong");
       nav("/");
-    } catch ({response}) {
-      var {error} = response.data
-      errorNotify('topRight', 'Loi dang ky', error.message)
+    } catch ({ response }) {
+      var { error } = response.data;
+      errorNotify("topRight", "Loi dang ky", error.message);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-    errorNotify('topRight', 'Loi dang ky', 'Khong thanh cong')
+    console.log("Failed:", errorInfo);
+    errorNotify("topRight", "Loi dang ky", "Khong thanh cong");
   };
 
   return (
