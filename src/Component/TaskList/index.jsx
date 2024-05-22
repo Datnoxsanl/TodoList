@@ -1,18 +1,20 @@
-import { Skeleton, Pagination, Form, Input, Space } from "antd";
+import { Skeleton, Pagination, Form, Input, Space, Avatar, Row } from "antd";
 import useFetching from "@/customHook/useFetching";
 import Render from "@/common/renderHelp";
 import {
   CloseOutlined,
   ReloadOutlined,
   DeleteOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
-import { Button } from "antd";
-import { createTask, getTasks } from "../../services/task";
+import { Button, Upload } from "antd";
+import { addImgTask, createTask, getTasks } from "../../services/task";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/modal";
 import TaskDetailModal from "../Modals/TaskDetail";
 import useNotification from "@/customHook/useNotication";
+import { beforeUpload } from "@/common/imageHelper";
 function TaskList(Props) {
   const dispatch = useDispatch();
   const { data, loading, error, loadPage, page, reload } =
@@ -30,7 +32,9 @@ function TaskList(Props) {
       let { title } = values;
       form.resetFields();
       pendingApi.current.disabled = true;
-      await createTask(title);
+      var newTask = await createTask(title);
+      newTask = newTask.data;
+      await addImgTask(uploadImageObj.fileOriginObj, newTask?.id);
       pendingApi.current.disabled = false;
       reload();
       setIsAddNew(false);
@@ -41,9 +45,67 @@ function TaskList(Props) {
   function handleOpenModal(task) {
     dispatch(openModal(task));
   }
+
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+  const [uploadImageObj, setUploadImageObj] = useState({
+    base64: "",
+    fileOriginObj: null,
+  });
+  const handleChangeImg = (info) => {
+    let errorMessage = beforeUpload(info.file);
+    if (errorMessage) {
+      errorNotify("topRight", "File ảnh không hợp lệ", errorMessage);
+      return;
+    }
+    getBase64(info.file, (url) => {
+      setUploadImageObj({
+        base64: url,
+        fileOriginObj: url.file,
+        // info.fileList[0].originFileObj
+      });
+    });
+  };
   const inputNew = (
     <Form onFinish={handleAddNew} form={form}>
       <Space>
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+          beforeUpload={beforeUpload}
+          onChange={handleChangeImg}
+        >
+          {uploadImageObj.base64 ? (
+            <img
+              src={uploadImageObj.base64}
+              alt="avatar"
+              style={{
+                width: "100%",
+              }}
+            />
+          ) : (
+            uploadButton
+          )}
+        </Upload>
         <Form.Item name="title" style={{ marginBottom: 0 }}>
           <Input placeholder="Enter Task Title"></Input>
         </Form.Item>
@@ -103,12 +165,21 @@ function TaskList(Props) {
                         handleOpenModal(item);
                       }}
                     >
+                      <Row align='middle' justify='space-between'>
+                      <Avatar
+                        src={`https://backoffice.nodemy.vn${item?.attributes?.image?.data?.attributes?.url}`}
+                      ></Avatar>
+                      {item?.attributes?.title}
                       <DeleteOutlined
                         onClick={async (e) => {
                           try {
                             e.stopPropagation();
                             await deleteTask(item?.id);
-                            infoNotify('topRight','Xoa thanh cong',`task ${item?.id}`)
+                            infoNotify(
+                              "topRight",
+                              "Xoa thanh cong",
+                              `task ${item?.id}`
+                            );
                             reload();
                           } catch (error) {
                             errorNotify(
@@ -119,7 +190,8 @@ function TaskList(Props) {
                           }
                         }}
                       />
-                      {item?.attributes?.title}
+                      </Row>
+                     
                     </li>
                   );
                 })}
