@@ -1,7 +1,11 @@
 import { Skeleton, Pagination, Form, Input, Space } from "antd";
 import useFetching from "@/customHook/useFetching";
 import Render from "@/common/renderHelp";
-import { CloseOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  ReloadOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import { Button } from "antd";
 import { createTask, getTasks } from "../../services/task";
 import { useRef, useState } from "react";
@@ -17,9 +21,7 @@ function TaskList(Props) {
   const [showAdd, setShowAdd] = useState(false);
   const pendingApi = useRef(null);
   const { contextHolder, infoNotify, errorNotify } = useNotification();
- 
- 
- 
+
   const toggleAdd = () => {
     setShowAdd(!showAdd);
   };
@@ -48,7 +50,7 @@ function TaskList(Props) {
         <Button ref={pendingApi} type="primary" htmlType="submit">
           Add
         </Button>
-        <CloseOutlined onClick={toggleAdd}/>
+        <CloseOutlined onClick={toggleAdd} />
       </Space>
     </Form>
   );
@@ -57,12 +59,12 @@ function TaskList(Props) {
     <>
       {contextHolder}
       <TaskDetailModal
-      onOk = {()=>{
-        reload()
-      }}
-      onDelete = {()=>{
-        reload
-      }}
+        onOk={() => {
+          reload();
+        }}
+        onDelete={() => {
+          reload;
+        }}
       />
       <div className="list">
         <h3 className="list-title">{Props.title}</h3>
@@ -98,9 +100,25 @@ function TaskList(Props) {
                     <li
                       key={item.id}
                       onClick={() => {
-                       handleOpenModal(item)
+                        handleOpenModal(item);
                       }}
                     >
+                      <DeleteOutlined
+                        onClick={async (e) => {
+                          try {
+                            e.stopPropagation();
+                            await deleteTask(item?.id);
+                            infoNotify('topRight','Xoa thanh cong',`task ${item?.id}`)
+                            reload();
+                          } catch (error) {
+                            errorNotify(
+                              "topRight",
+                              "Không thành công",
+                              `Xoá taskID ${item?.id}`
+                            );
+                          }
+                        }}
+                      />
                       {item?.attributes?.title}
                     </li>
                   );

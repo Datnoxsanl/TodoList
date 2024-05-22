@@ -2,7 +2,7 @@ import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal, openModal } from "@/redux/modal";
-import { updateTask } from "@/services/task";
+import { updateTask, deleteTask } from "@/services/task";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import useNotification from "@/customHook/useNotication";
@@ -25,7 +25,7 @@ export default function TaskDetailModal(props) {
     dispatch(closeModal());
   };
 
-  async function onFinish(values) {
+  async function handleUpdate(values) {
     try {
       console.log(values);
       let { title } = values;
@@ -51,6 +51,19 @@ export default function TaskDetailModal(props) {
     },
   ];
 
+  async function handleDeleteTask() {
+    try {
+     await deleteTask(data?.id);
+     if(typeof props.onDelete == 'function') {props.onDelete()}
+      infoNotify('topRight', 'Thanh Cong Task', data?.id)
+      dispatch(closeModal())
+      
+    } catch (error) {
+      console.log(error);
+      errorNotify('topRight', 'that bai task' , data?.id)
+    }
+  }
+
   useEffect(() => {
     if (data) {
       let date = data?.attributes?.date ? dayjs(data?.attributes?.date) : undefined;
@@ -72,7 +85,7 @@ export default function TaskDetailModal(props) {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[
-          // <Button key="delete" type="dashed" danger onClick={handleDeleteTask}>Xoa</Button>,
+          <Button key="delete" type="dashed" danger onClick={handleDeleteTask}>Xoa</Button>,
           <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
           <Button key="ok" type="primary" onClick={handleOk}>OK</Button>
   ]}
@@ -84,7 +97,7 @@ export default function TaskDetailModal(props) {
             complete: data?.attributes?.complete,
             date: data?.attributes?.date,
           }}
-          onFinish={onFinish}
+          onFinish={handleUpdate}
         >
           <Form.Item name="title">
             <Input value={data?.attributes?.title}></Input>
