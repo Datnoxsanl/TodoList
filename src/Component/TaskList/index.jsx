@@ -8,33 +8,39 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/modal";
 import TaskDetailModal from "../Modals/TaskDetail";
-
+import useNotification from "@/customHook/useNotication";
 function TaskList(Props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { data, loading, error, loadPage, page, reload } =
     useFetching(getTasks);
   const [form] = Form.useForm();
   const [showAdd, setShowAdd] = useState(false);
   const pendingApi = useRef(null);
+  const { contextHolder, infoNotify, errorNotify } = useNotification();
+ 
+ 
+ 
   const toggleAdd = () => {
     setShowAdd(!showAdd);
   };
-  const onFinish = async (value) => {
+  async function handleAddNew(values) {
     try {
-      let { title } = value;
+      let { title } = values;
       form.resetFields();
       pendingApi.current.disabled = true;
       await createTask(title);
       pendingApi.current.disabled = false;
       reload();
-      setShowAdd(false);
+      setIsAddNew(false);
     } catch (error) {
-      pendingApi.current.disabled = false;
-      console.log(error);
+      console.log("loi", error);
     }
-  };
+  }
+  function handleOpenModal(task) {
+    dispatch(openModal(task));
+  }
   const inputNew = (
-    <Form onFinish={onFinish} form={form}>
+    <Form onFinish={handleAddNew} form={form}>
       <Space>
         <Form.Item name="title" style={{ marginBottom: 0 }}>
           <Input placeholder="Enter Task Title"></Input>
@@ -42,14 +48,22 @@ function TaskList(Props) {
         <Button ref={pendingApi} type="primary" htmlType="submit">
           Add
         </Button>
-        <CloseOutlined onClick={toggleAdd}></CloseOutlined>
+        <CloseOutlined onClick={toggleAdd}/>
       </Space>
     </Form>
   );
 
   const element = (
     <>
-    <TaskDetailModal/>
+      {contextHolder}
+      <TaskDetailModal
+      onOk = {()=>{
+        reload()
+      }}
+      onDelete = {()=>{
+        reload
+      }}
+      />
       <div className="list">
         <h3 className="list-title">{Props.title}</h3>
         <Pagination
@@ -80,9 +94,16 @@ function TaskList(Props) {
                   }
                 })
                 .map((item) => {
-                  return <li key={item.id} onClick={()=>{
-                    dispatch(openModal(item))
-                  }}>{item?.attributes?.title}</li>;
+                  return (
+                    <li
+                      key={item.id}
+                      onClick={() => {
+                       handleOpenModal(item)
+                      }}
+                    >
+                      {item?.attributes?.title}
+                    </li>
+                  );
                 })}
         </ul>
         {showAdd ? inputNew : null}

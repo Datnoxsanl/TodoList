@@ -14,3 +14,13 @@ export const createTask = async (title)=>{
    });
    return response.data;
 }
+
+export const updateTask = async (id,title)=>{
+   const response = await axios.put(`/tasks/${id}`,{
+         "data": {
+             "title": title.title,
+         }
+     
+   });
+   return response.data;
+}

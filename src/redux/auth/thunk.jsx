@@ -1,6 +1,6 @@
 import { login } from '@/services/auth.jsx'
 import {createAsyncThunk} from '@reduxjs/toolkit'
-import { getMeWithToken } from 'services/auth';
+import { getMeWithToken } from '@/services/auth';
 export const loginThunk = createAsyncThunk(
     'auth/loginThunk',
     async (infoUser, thunkAPI) => {
