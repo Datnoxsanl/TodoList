@@ -1,14 +1,17 @@
 import useNotification from "@/customHook/useNotication";
 import { Upload } from "antd";
 import { beforeUpload, getBase64 } from "@/common/imageHelper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 export default function UploadImage(props) {
   const { contextHolder, infoNotify, errorNotify } = useNotification();
   const [uplaodImageObj, setUploadImageObj] = useState({
-    base64: "",
+    base64: props.initSrc || "",
     fileOriginObj: null,
   });
+  useEffect(() => {
+    setUploadImageObj({ ...uplaodImageObj, base64: props.initSrc });
+  }, [props.initSrc]);
   const uploadButton = (
     <button
       style={{

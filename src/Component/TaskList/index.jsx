@@ -37,7 +37,9 @@ function TaskList(Props) {
       pendingApi.current.disabled = true;
       var newTask = await createTask(title);
       newTask = newTask.data;
-      await addImgTask(uploadImageObj.fileOriginObj, newTask?.id);
+      if (uploadImgTask.fileOriginObj) {
+        await addImgTask(uploadImgTask.fileOriginObj, newTask?.id);
+      }
       pendingApi.current.disabled = false;
       reload();
       setIsAddNew(false);

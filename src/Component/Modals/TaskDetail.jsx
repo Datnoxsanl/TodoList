@@ -7,6 +7,8 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import useNotification from "@/customHook/useNotication";
 dayjs.extend(customParseFormat);
+import UploadImage from "@/Component/Upload/UploadImage";
+import { addImgTask } from "@/services/task";
 
 export default function TaskDetailModal(props) {
   const showDetailTaskModal = useSelector(
@@ -16,6 +18,10 @@ export default function TaskDetailModal(props) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { contextHolder, infoNotify, errorNotify } = useNotification();
+  const [uplaodImageTask, setUploadImageTask] = useState({
+    base64:props.initSrc ||"",
+    fileOriginObj: null,
+  });
   const handleOk = () => {
     form.submit();
     // dispatch(closeModal());
@@ -26,18 +32,20 @@ export default function TaskDetailModal(props) {
   };
 
   async function handleUpdate(values) {
+    let id = data?.id;
     try {
       console.log(values);
       let { title } = values;
-      await updateTask(data?.id, title);
+      await updateTask(id, title);
+      await addImgTask(uplaodImageTask.fileOriginObj,id)
       if (typeof props.onOk == "function") {
         props.onOk();
       }
-      infoNotify("topRight", "Thanh Cong Task", data?.id);
+      infoNotify("topRight", "Thanh Cong Task", `${id}`);
       dispatch(closeModal());
     } catch (error) {
       console.log(error);
-      errorNotify("topRight", "that bai task", data?.id);
+      errorNotify("topRight", "that bai task",` ${id}`);
     }
   }
 
@@ -109,6 +117,7 @@ export default function TaskDetailModal(props) {
           }}
           onFinish={handleUpdate}
         >
+          <UploadImage setImg = {setUploadImageTask} initSrc = {`https://backoffice.nodemy.vn${data?.attributes?.image?.data?.attributes?.url}`}/>
           <Form.Item name="title">
             <Input value={data?.attributes?.title}></Input>
           </Form.Item>

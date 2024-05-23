@@ -34,6 +34,5 @@ export const deleteTask = async (id) => {
 
 export const addImgTask = async (file, idTask) => {
   const response = await upload(file, "api::task.task", idTask, "image");
-
   return response.data;
 };
