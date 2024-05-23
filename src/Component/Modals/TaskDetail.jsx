@@ -37,7 +37,10 @@ export default function TaskDetailModal(props) {
       console.log(values);
       let { title } = values;
       await updateTask(id, title);
-      await addImgTask(uplaodImageTask.fileOriginObj,id)
+      if(uplaodImageTask.fileOriginObj){
+        await addImgTask(uplaodImageTask.fileOriginObj,id)
+      }
+
       if (typeof props.onOk == "function") {
         props.onOk();
       }
