@@ -5,16 +5,16 @@ import {
   CloseOutlined,
   ReloadOutlined,
   DeleteOutlined,
-  PlusOutlined,
 } from "@ant-design/icons";
-import { Button, Upload } from "antd";
+import { Button } from "antd";
 import { addImgTask, createTask, getTasks } from "../../services/task";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/modal";
 import TaskDetailModal from "../Modals/TaskDetail";
 import useNotification from "@/customHook/useNotication";
-import { beforeUpload } from "@/common/imageHelper";
+import UploadImage from "@/Component/Upload/UploadImage";
+
 function TaskList(Props) {
   const dispatch = useDispatch();
   const { data, loading, error, loadPage, page, reload } =
@@ -23,7 +23,10 @@ function TaskList(Props) {
   const [showAdd, setShowAdd] = useState(false);
   const pendingApi = useRef(null);
   const { contextHolder, infoNotify, errorNotify } = useNotification();
-
+  const [uploadImgTask, setUploadImgTask] = useState({
+    base64: "",
+    fileOriginObj: null,
+  });
   const toggleAdd = () => {
     setShowAdd(!showAdd);
   };
@@ -46,66 +49,10 @@ function TaskList(Props) {
     dispatch(openModal(task));
   }
 
-  const uploadButton = (
-    <button
-      style={{
-        border: 0,
-        background: "none",
-      }}
-      type="button"
-    >
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </button>
-  );
-  const [uploadImageObj, setUploadImageObj] = useState({
-    base64: "",
-    fileOriginObj: null,
-  });
-  const handleChangeImg = (info) => {
-    let errorMessage = beforeUpload(info.file);
-    if (errorMessage) {
-      errorNotify("topRight", "File ảnh không hợp lệ", errorMessage);
-      return;
-    }
-    getBase64(info.file, (url) => {
-      setUploadImageObj({
-        base64: url,
-        fileOriginObj: url.file,
-        // info.fileList[0].originFileObj
-      });
-    });
-  };
   const inputNew = (
     <Form onFinish={handleAddNew} form={form}>
       <Space>
-        <Upload
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-          beforeUpload={beforeUpload}
-          onChange={handleChangeImg}
-        >
-          {uploadImageObj.base64 ? (
-            <img
-              src={uploadImageObj.base64}
-              alt="avatar"
-              style={{
-                width: "100%",
-              }}
-            />
-          ) : (
-            uploadButton
-          )}
-        </Upload>
+        <UploadImage setImg={setUploadImgTask} />
         <Form.Item name="title" style={{ marginBottom: 0 }}>
           <Input placeholder="Enter Task Title"></Input>
         </Form.Item>
