@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { searchTask } from '@/services/task'
 import { useDispatch } from 'react-redux'
 import { openModal } from '@/redux/modal'
+const {VITE_ORIGIN} = import.meta.env;
+
 export default function SearchTask(){
     const [listTask, setListTask] = useState([])
     const dispatch = useDispatch()
@@ -55,7 +57,7 @@ export default function SearchTask(){
                     }}
                 >
                     <List.Item.Meta
-                    avatar={<Avatar src={`https://backoffice.nodemy.vn${item?.attributes?.image?.data?.attributes?.url}`} />}
+                    avatar={<Avatar src={VITE_ORIGIN + item?.attributes?.image?.data?.attributes?.url} />}
                     title={item?.id}
                     description={item?.attributes?.title}
                     />

@@ -9,7 +9,7 @@ import useNotification from "@/customHook/useNotication";
 dayjs.extend(customParseFormat);
 import UploadImage from "@/Component/Upload/UploadImage";
 import { addImgTask } from "@/services/task";
-
+const {VITE_ORIGIN} = import.meta.env;
 export default function TaskDetailModal(props) {
   const showDetailTaskModal = useSelector(
     (state) => state.modal.showDetailTaskModal
@@ -120,7 +120,7 @@ export default function TaskDetailModal(props) {
           }}
           onFinish={handleUpdate}
         >
-          <UploadImage setImg = {setUploadImageTask} initSrc = {`https://backoffice.nodemy.vn${data?.attributes?.image?.data?.attributes?.url}`}/>
+          <UploadImage setImg = {setUploadImageTask} initSrc = {VITE_ORIGIN+  data?.attributes?.image?.data?.attributes?.url}/>
           <Form.Item name="title">
             <Input value={data?.attributes?.title}></Input>
           </Form.Item>

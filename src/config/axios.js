@@ -1,6 +1,7 @@
 import axios from "axios";
 import { store } from "@/redux/store";
-axios.defaults.baseURL = "https://backoffice.nodemy.vn/api";
+const {VITE_BASE_URL} = import.meta.env;
+axios.defaults.baseURL =VITE_BASE_URL;
 axios.defaults.headers["Content-Type"] = "application/json";
 
 axios.interceptors.request.use((config) => {

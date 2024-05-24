@@ -14,6 +14,8 @@ import { openModal,reloadFetching } from "@/redux/modal";
 import TaskDetailModal from "../Modals/TaskDetail";
 import useNotification from "@/customHook/useNotication";
 import UploadImage from "@/Component/Upload/UploadImage";
+const {VITE_ORIGIN} = import.meta.env;
+
 
 function TaskList(Props) {
   const dispatch = useDispatch();
@@ -118,7 +120,7 @@ function TaskList(Props) {
                     >
                       <Row align="middle" justify="space-between">
                         <Avatar
-                          src={`https://backoffice.nodemy.vn${item?.attributes?.image?.data?.attributes?.url}`}
+                          src={VITE_ORIGIN + item?.attributes?.image?.data?.attributes?.url}
                         ></Avatar>
                         {item?.attributes?.title}
                         <DeleteOutlined
