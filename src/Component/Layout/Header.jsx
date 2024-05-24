@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Tooltip } from "antd";
+import SearchTag from "./SearchTag";
 function Header() {
   const user = useSelector((state) => state.auth.user);
   // console.log("header",user)
@@ -10,14 +11,7 @@ function Header() {
           <button className="boards-btn btn">
             <i className="fab fa-trello boards-btn-icon"></i>Boards
           </button>
-          <div className="board-search">
-            <input
-              type="search"
-              className="board-search-input"
-              aria-label="Board Search"
-            />
-            <i className="fas fa-search search-icon" aria-hidden="true"></i>
-          </div>
+         <SearchTag></SearchTag>
         </div>
         <div className="logo">
           <h1>
