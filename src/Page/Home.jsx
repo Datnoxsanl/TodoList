@@ -3,7 +3,8 @@ export default function Home() {
   return (
     <>
       <section className="lists-container">
-        <TaskList title="Danh sách việc cần làm" />
+        <TaskList title="Danh sách việc cần làm" topic = "doing" />
+        <TaskList title="Danh sách việc đã hoàn thành" topic = "done" />
         <div className="list">
           <h3 className="list-title">Completed Tasks</h3>
           <ul className="list-items">

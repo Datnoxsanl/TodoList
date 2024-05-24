@@ -1,9 +1,17 @@
 import axios from "axios";
 import { upload } from "@/services/upload";
 
-export const getTasks = async (page, pageSize, signal) => {
+export const getCompleteTasks = async (page, pageSize, signal) => {
   const response = await axios.get(
-    `/tasks?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+    `/tasks?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort[0]=createdAt:desc&filters[complete]=complete`,
+    { signal }
+  );
+  return response.data;
+};
+
+export const getUnCompleteTasks = async (page, pageSize, signal) => {
+  const response = await axios.get(
+    `/tasks?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort[0]=createdAt:desc&filters[complete]=false`,
     { signal }
   );
   return response.data;
@@ -11,17 +19,19 @@ export const getTasks = async (page, pageSize, signal) => {
 
 export const createTask = async (title) => {
   const response = await axios.post(`/tasks`, {
-    data: {
-      title: title,
+    'data': {
+      'title': title,
     },
   });
   return response.data;
 };
 
-export const updateTask = async (id, title) => {
+export const updateTask = async (id, newTask) => {
   const response = await axios.put(`/tasks/${id}`, {
-    data: {
-      title: title.title,
+    'data': {
+      'title': newTask.title,
+      'date': newTask.date,
+      'complete':newTask.complete
     },
   });
   return response.data;

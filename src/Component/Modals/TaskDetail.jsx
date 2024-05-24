@@ -1,5 +1,5 @@
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal, openModal } from "@/redux/modal";
 import { updateTask, deleteTask } from "@/services/task";
@@ -54,12 +54,12 @@ export default function TaskDetailModal(props) {
 
   const arrStatus = [
     {
-      label: "Doing",
-      value: true,
+      label: "doing",
+      value: false,
     },
     {
-      label: "Done",
-      value: false,
+      label: "done",
+      value: true,
     },
   ];
 

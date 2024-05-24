@@ -7,21 +7,23 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd";
-import { addImgTask, createTask, getTasks } from "../../services/task";
+import { addImgTask, createTask, getCompleteTasks,getUnCompleteTasks } from "../../services/task";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { openModal } from "@/redux/modal";
+import { openModal,reloadFetching } from "@/redux/modal";
 import TaskDetailModal from "../Modals/TaskDetail";
 import useNotification from "@/customHook/useNotication";
 import UploadImage from "@/Component/Upload/UploadImage";
 
 function TaskList(Props) {
   const dispatch = useDispatch();
+  const getTasks = Props.topic==='doing'? getUnCompleteTasks:getCompleteTasks;
   const { data, loading, error, loadPage, page, reload } =
     useFetching(getTasks);
   const [form] = Form.useForm();
   const [showAdd, setShowAdd] = useState(false);
   const pendingApi = useRef(null);
+
   const { contextHolder, infoNotify, errorNotify } = useNotification();
   const [uploadImgTask, setUploadImgTask] = useState({
     base64: "",
@@ -71,10 +73,10 @@ function TaskList(Props) {
       {contextHolder}
       <TaskDetailModal
         onOk={() => {
-          reload();
+          dispatch(reloadFetching())
         }}
         onDelete={() => {
-          reload;
+         dispatch(reloadFetching())
         }}
       />
       <div className="list">

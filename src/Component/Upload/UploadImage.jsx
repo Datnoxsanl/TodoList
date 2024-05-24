@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 export default function UploadImage(props) {
   const { contextHolder, infoNotify, errorNotify } = useNotification();
-  const [uplaodImageObj, setUploadImageObj] = useState({
+  const [uploadImageObj, setUploadImageObj] = useState({
     base64: props.initSrc || "",
     fileOriginObj: null,
   });
   useEffect(() => {
-    setUploadImageObj({ ...uplaodImageObj, base64: props.initSrc });
+    setUploadImageObj({ ...uploadImageObj, base64: props.initSrc });
   }, [props.initSrc]);
   const uploadButton = (
     <button
