@@ -1,10 +1,76 @@
 import TaskList from "@/Component/TaskList";
+import { DatePicker, Form } from "antd";
+import { updateFilterDate } from "@/redux/taskList";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import dayjs from "dayjs";
+import { useEffect } from "react";
+import { emailType } from "@/common/rule";
+
+const { RangePicker } = DatePicker;
 export default function Home() {
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const [query, setQUery] = useSearchParams();
+  function convertQueryToObj() {
+    let queryObj = {};
+    query.forEach((value, key) => {
+      query[key] = value;
+    });
+    return queryObj;
+  }
+  const onChange = (values) => {
+    let queryObj = convertQueryToObj();
+    if (!values) {
+      values = [null, null];
+    }
+    let startDate = values[0]?.format("YYYY-MM-DD");
+    let endDate = values[1]?.format("YYYY-MM-DD");
+    if (startDate && endDate) {
+      queryObj.startDate = startDate;
+      queryObj.endDate = endDate;
+    } else {
+      delete queryObj.startDate;
+      delete queryObj.endDate;
+    }
+    dispatch(
+      updateFilterDate({
+        startDate: startDate,
+        endDate: endDate,
+      })
+    );
+    setQUery(queryObj);
+  };
+
+  useEffect(() => {
+    let { startDate, endDate } = convertQueryToObj();
+    if (startDate && endDate) {
+    } else {
+      startDate = null;
+      endDate = null;
+    }
+    dispatch(
+      updateFilterDate({
+        startDate: startDate,
+        endDate: endDate,
+      })
+    );
+    startDate = startDate ? dayjs(startDate) : undefined;
+    endDate = endDate ? dayjs(endDate): undefined;
+    form.setFieldValue({
+      date: [startDate, endDate],
+    });
+  }, [query]);
   return (
     <>
       <section className="lists-container">
-        <TaskList title="Danh sách việc cần làm" topic = "doing" />
-        <TaskList title="Danh sách việc đã hoàn thành" topic = "done" />
+        <Form>
+          <Form.Item>
+            <RangePicker onChange={onChange} />
+          </Form.Item>
+        </Form>
+        <TaskList title="Danh sách việc cần làm" topic="doing" />
+        <TaskList title="Danh sách việc đã hoàn thành" topic="done" />
         <div className="list">
           <h3 className="list-title">Completed Tasks</h3>
           <ul className="list-items">

@@ -1,13 +1,14 @@
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./auth";
-import modal from "./modal";
 import modalReducer from "./modal";
+import taskListReducer from "./taskList";
+
 const rootReducer = combineReducers({
   auth: authReducer,
   modal: modalReducer,
+  taskList: taskListReducer,
 });
 
 const persistConfig = {
