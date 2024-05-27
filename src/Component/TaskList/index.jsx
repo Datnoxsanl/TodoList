@@ -14,6 +14,7 @@ import { openModal,reloadFetching } from "@/redux/modal";
 import TaskDetailModal from "../Modals/TaskDetail";
 import useNotification from "@/customHook/useNotication";
 import UploadImage from "@/Component/Upload/UploadImage";
+import { warningTasksThunk } from "@/redux/taskList/thunk";
 const {VITE_ORIGIN} = import.meta.env;
 
 
@@ -46,6 +47,7 @@ function TaskList(Props) {
       }
       pendingApi.current.disabled = false;
       reload();
+      dispatch(warningTasksThunk())
       setIsAddNew(false);
     } catch (error) {
       console.log("loi", error);
@@ -76,9 +78,11 @@ function TaskList(Props) {
       <TaskDetailModal
         onOk={() => {
           dispatch(reloadFetching())
+          dispatch(warningTasksThunk())
         }}
         onDelete={() => {
          dispatch(reloadFetching())
+         dispatch(warningTasksThunk())
         }}
       />
       <div className="list">
@@ -134,6 +138,7 @@ function TaskList(Props) {
                                 `task ${item?.id}`
                               );
                               reload();
+                              dispatch(warningTasksThunk())
                             } catch (error) {
                               errorNotify(
                                 "topRight",

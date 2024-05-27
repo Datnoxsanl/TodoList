@@ -1,5 +1,6 @@
 import axios from "axios";
 import { upload } from "@/services/upload";
+import dayjs from "dayjs";
 
 export const getCompleteTasks = async (page, pageSize, signal) => {
   const response = await axios.get(
@@ -53,3 +54,12 @@ export const searchTask = async (txt) => {
   );
   return response.data;
 };
+
+export const getWarningTasks = async () => {
+  let today = new Date()
+  today.setDate(today.getDate() + 3)
+  let warningDate = dayjs(today).format('YYYY-MM-DD')
+
+  const response = await axios.get(`/tasks?populate=*&pagination[page]=1&pagination[pageSize]=5&filters[date][$lte]=${warningDate}&sort[0]=date:desc`);
+  return response.data;
+}
