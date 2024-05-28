@@ -1,49 +1,17 @@
-// import { createSlice } from '@reduxjs/toolkit'
-// import thunk from './thunk'
-
-// const initialState = {
-//     countReloadTaskList: 0,
-//     filters: {
-//         startDate: null,
-//         endDate: null
-//     },
-//     warningTasks:[]
-// }
-
-// export const taskListSlice = createSlice({
-//   name: 'taskList',
-//   initialState,
-//   reducers: {
-//     reloadTaskList: (state) => {
-//       state.countReloadTaskList++;
-//     },
-//     updateFilterDate: (state, action) => {
-//       state.filters.startDate = action?.payload?.startDate;
-//       state.filters.endDate = action?.payload?.endDate;
-//     }
-//   },
-//   extraReducers: (builder) => {
-//     thunk(builder); // Gọi hàm thunk và truyền builder vào
-//   }
-// })
-
-// export const { reloadTaskList, updateFilterDate } = taskListSlice.actions
-// export default taskListSlice.reducer
-
-import { createSlice } from '@reduxjs/toolkit';
-import { thunk } from './thunk'; // Import hàm thunk đã được điều chỉnh
+import { createSlice } from "@reduxjs/toolkit";
+import { thunk } from "./thunk"; // Import hàm thunk đã được điều chỉnh
 
 const initialState = {
   countReloadTaskList: 0,
   filters: {
     startDate: null,
-    endDate: null
+    endDate: null,
   },
-  warningTasks: []
+  warningTasks: [],
 };
 
 export const taskListSlice = createSlice({
-  name: 'taskList',
+  name: "taskList",
   initialState,
   reducers: {
     reloadTaskList: (state) => {
@@ -52,11 +20,11 @@ export const taskListSlice = createSlice({
     updateFilterDate: (state, action) => {
       state.filters.startDate = action?.payload?.startDate;
       state.filters.endDate = action?.payload?.endDate;
-    }
+    },
   },
   extraReducers: (builder) => {
     thunk(builder); // Sử dụng hàm thunk với builder
-  }
+  },
 });
 
 export const { reloadTaskList, updateFilterDate } = taskListSlice.actions;
