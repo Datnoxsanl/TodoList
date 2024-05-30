@@ -13,15 +13,17 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          // <PrivateRouter role = 'authenticatedCheck'></PrivateRouter>
-          <Home></Home>
+          <PrivateRouter role="AuthenticatedCheck"><Home/></PrivateRouter>
         ),
       },
       {
+        path: '/profile',
+        element: <h1>Profile User</h1>
+    },
+      {
         path: "/quanly",
         element: (
-          // <PrivateRouter role ='managerCheck'></PrivateRouter>
-          <h1>QUanLy</h1>
+          <PrivateRouter role="ManagerCheck"><h1>Trang Quan Ly</h1></PrivateRouter>
         ),
       },
       {
@@ -34,30 +36,6 @@ const router = createBrowserRouter([
       },
     ],
     errorElement: <ErrorPage />,
-    // path: "/",
-    // element: <BaseLayout></BaseLayout>,
-    // errorElement: <ErrorPage />,
-    // children: [
-    //   {
-    //       path: '/',
-    //       element: <PrivateRouter role="AuthenticatedCheck"><Home/></PrivateRouter>
-    //   },
-    //   {
-    //       path: '/profile',
-    //       element: <h1>Profile User</h1>
-    //   },{
-    //     path: '/quanly',
-    //     element: <PrivateRouter role="ManagerCheck"><h1>Trang Quan Ly</h1></PrivateRouter>
-    //   }
-    //   ,{
-    //     path: '/register',
-    //     element: <Register/>
-    //   },
-    //   {
-    //     path: '/login',
-    //     element: <Login/>
-    //   },
-    // ]
   },
 ]);
 
