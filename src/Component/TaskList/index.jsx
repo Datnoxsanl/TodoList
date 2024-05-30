@@ -7,20 +7,25 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd";
-import { addImgTask, createTask, getCompleteTasks,getUnCompleteTasks } from "../../services/task";
+import {
+  addImgTask,
+  createTask,
+  getCompleteTasks,
+  getUnCompleteTasks,
+} from "../../services/task";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { openModal,reloadFetching } from "@/redux/modal";
+import { openModal, reloadFetching } from "@/redux/modal";
 import TaskDetailModal from "../Modals/TaskDetail";
 import useNotification from "@/customHook/useNotication";
 import UploadImage from "@/Component/Upload/UploadImage";
 import { warningTasksThunk } from "@/redux/taskList/thunk";
-const {VITE_ORIGIN} = import.meta.env;
-
+const { VITE_ORIGIN } = import.meta.env;
 
 function TaskList(Props) {
   const dispatch = useDispatch();
-  const getTasks = Props.topic==='doing'? getUnCompleteTasks:getCompleteTasks;
+  const getTasks =
+    Props.topic === "doing" ? getUnCompleteTasks : getCompleteTasks;
   const { data, loading, error, loadPage, page, reload } =
     useFetching(getTasks);
   const [form] = Form.useForm();
@@ -47,7 +52,7 @@ function TaskList(Props) {
       }
       pendingApi.current.disabled = false;
       reload();
-      dispatch(warningTasksThunk())
+      dispatch(warningTasksThunk());
       setIsAddNew(false);
     } catch (error) {
       console.log("loi", error);
@@ -77,12 +82,12 @@ function TaskList(Props) {
       {contextHolder}
       <TaskDetailModal
         onOk={() => {
-          dispatch(reloadFetching())
-          dispatch(warningTasksThunk())
+          dispatch(reloadFetching());
+          dispatch(warningTasksThunk());
         }}
         onDelete={() => {
-         dispatch(reloadFetching())
-         dispatch(warningTasksThunk())
+          dispatch(reloadFetching());
+          dispatch(warningTasksThunk());
         }}
       />
       <div className="list">
@@ -124,13 +129,16 @@ function TaskList(Props) {
                     >
                       <Row align="middle" justify="space-between">
                         <Avatar
-                          src={VITE_ORIGIN + item?.attributes?.image?.data?.attributes?.url}
+                          src={
+                            VITE_ORIGIN +
+                            item?.attributes?.image?.data?.attributes?.url
+                          }
                         ></Avatar>
                         {item?.attributes?.title}
                         <DeleteOutlined
                           onClick={async (e) => {
                             try {
-                              e.stopPropagation();
+                              e.stopPropagation()
                               await deleteTask(item?.id);
                               infoNotify(
                                 "topRight",
@@ -138,7 +146,7 @@ function TaskList(Props) {
                                 `task ${item?.id}`
                               );
                               reload();
-                              dispatch(warningTasksThunk())
+                              dispatch(warningTasksThunk());
                             } catch (error) {
                               errorNotify(
                                 "topRight",
