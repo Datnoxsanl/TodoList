@@ -20,7 +20,7 @@ function Header() {
   }, []);
   function handleLogout() {
     dispatch(logout());
-    nav('/');
+    nav('/login');
     console.log('logout')
   }
   return (

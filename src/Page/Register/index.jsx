@@ -5,10 +5,10 @@ import {
   PasswordRule,
   Re_Password,
   useNamerule,
-} from "../../common/rule";
-import { register } from "../../services/auth";
+} from "@/common/rule";
+import { register } from "@/services/auth";
 import { useNavigate } from "react-router";
-import useNotification from "../../customHook/useNotication";
+import useNotification from "@/customHook/useNotication";
 
 // import 'Register.css'
 
@@ -24,6 +24,7 @@ const Register = () => {
     } catch ({ response }) {
       var { error } = response.data;
       errorNotify("topRight", "Loi dang ky", error.message);
+      console.log(error.message);
     }
   };
 
@@ -56,7 +57,7 @@ const Register = () => {
         <Form.Item label="Username" name="username" rules={useNamerule}>
           <Input />
         </Form.Item>
-        <Form.Item label="Email" name="Email" rules={EmailRule}>
+        <Form.Item label="Email" name="email" rules={EmailRule}>
           <Input />
         </Form.Item>
 
@@ -65,17 +66,6 @@ const Register = () => {
         </Form.Item>
         <Form.Item label="Re-Password" name="Re-password" rules={Re_Password}>
           <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
         <Form.Item
