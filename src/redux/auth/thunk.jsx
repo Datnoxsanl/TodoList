@@ -1,7 +1,7 @@
-import { login } from "@/services/auth.jsx";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getMeWithToken } from "@/services/auth";
-export const loginThunk = createAsyncThunk(
+import { login, getMeWithToken } from "@/services/auth";
+
+const loginThunk = createAsyncThunk(
   "auth/loginThunk",
   async (infoUser, thunkAPI) => {
     const data = await login(infoUser);
@@ -12,16 +12,4 @@ export const loginThunk = createAsyncThunk(
   }
 );
 
-export default {
-  [loginThunk.pending]: (state, action) => {
-    state.loading = true;
-  },
-  [loginThunk.fulfilled]: (state, action) => {
-    state.token = action.payload.jwt;
-    state.user = action.payload.user;
-    state.loading = false;
-  },
-  [loginThunk.rejected]: (state, action) => {
-    state.loading = false;
-  },
-};
+export default loginThunk;

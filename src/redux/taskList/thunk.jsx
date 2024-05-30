@@ -1,9 +1,7 @@
 
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getWarningTasks } from '@/services/task';
 
-// Định nghĩa async thunk
 export const warningTasksThunk = createAsyncThunk(
   'taskList/warningTasksThunk',
   async (_, thunkAPI) => {
@@ -13,7 +11,7 @@ export const warningTasksThunk = createAsyncThunk(
   }
 );
 
-// Định nghĩa các case sử dụng builder callback
+
 export const thunk = (builder) => {
   builder
     .addCase(warningTasksThunk.pending, (state, action) => {

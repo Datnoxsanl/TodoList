@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import useNotification from "../../customHook/useNotication";
 import { setUserAccess } from "@/redux/auth";
 import { useDispatch } from "react-redux";
-// import { loginThunk } from "redux/auth/thunk";
+import { loginThunk } from "@/redux/auth"; 
 const Login = () => {
   const { contextHolder, infoNotify, errorNotify } = useNotification();
   const nav = useNavigate();
@@ -16,13 +16,13 @@ const Login = () => {
       let { jwt, user } = await login(values);
       // localStorage.setItem("token", jwt);
       // localStorage.setItem("user", JSON.stringify(user));
-      dispatch(
-        setUserAccess({
-          token: jwt,
-          user: user,
-        })
-      );
-      // dispatch(loginThunk(values));
+      // dispatch(
+      //   setUserAccess({
+      //     token: jwt,
+      //     user: user,
+      //   })
+      // );
+      dispatch(loginThunk(values));
       nav("/");
     } catch (error) {
       // console.error("Lỗi:", error);
