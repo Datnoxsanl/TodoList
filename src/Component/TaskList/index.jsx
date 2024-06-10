@@ -12,6 +12,7 @@ import {
   createTask,
   getCompleteTasks,
   getUnCompleteTasks,
+  deleteTask
 } from "../../services/task";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -138,15 +139,15 @@ function TaskList(Props) {
                         <DeleteOutlined
                           onClick={async (e) => {
                             try {
-                              e.stopPropagation()
+                              e.stopPropagation(); 
                               await deleteTask(item?.id);
+                              reload();
+                              dispatch(warningTasksThunk());
                               infoNotify(
                                 "topRight",
                                 "Xoa thanh cong",
                                 `task ${item?.id}`
                               );
-                              reload();
-                              dispatch(warningTasksThunk());
                             } catch (error) {
                               errorNotify(
                                 "topRight",
