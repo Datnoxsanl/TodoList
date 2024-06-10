@@ -34,9 +34,8 @@ export default function TaskDetailModal(props) {
   async function handleUpdate(values) {
     let id = data?.id;
     try {
-      console.log(values);
-      let { title } = values;
-      await updateTask(id, title);
+      // let { title } = values;
+      await updateTask(id, values);
       if(uplaodImageTask.fileOriginObj){
         await addImgTask(uplaodImageTask.fileOriginObj,id)
       }
@@ -52,16 +51,16 @@ export default function TaskDetailModal(props) {
     }
   }
 
-  const arrStatus = [
+  let arrStatus = [
     {
-      label: "doing",
-      value: false,
+    value: true,
+    label: 'Done',
     },
     {
-      label: "done",
-      value: true,
+    value: false,
+    label: 'Doing',
     },
-  ];
+]
 
   async function handleDeleteTask() {
     try {
@@ -125,7 +124,7 @@ export default function TaskDetailModal(props) {
             <Input value={data?.attributes?.title}></Input>
           </Form.Item>
           <Form.Item name="complete">
-            <Select options={arrStatus}></Select>
+            <Select options={arrStatus}/>
           </Form.Item>
           <Form.Item name="date">
             <DatePicker format="YYYY/MM/DD"></DatePicker>
